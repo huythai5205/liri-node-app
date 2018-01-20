@@ -1,24 +1,38 @@
-//const keys = require('./keys.js');
+const keys = require('./keys.js');
 //const fs = require('fs');
 
 
 switch (process.argv[2]) {
     case 'my-tweets':
-        day = "Sunday";
+        getTweets();
         break;
     case 'spotify-this-song':
-        day = "Monday";
         break;
     case 'movie-this':
-        day = "Tuesday";
         break;
     case 'do-what-it-says':
-        day = "Wednesday";
         break;
     default:
         console.log('not a valid comment');
 }
 
+function getTweets() {
+    let params = {
+        screen_name: 'kennythai85',
+        count: 20
+    };
+
+    keys.twitter.get('statuses/user_timeline', params, function (error, tweets, response) {
+        if (!error) {
+            for (let tweet of tweets) {
+                console.log(tweet.text);
+            }
+            console.log(tweets[0].text);
+        } else {
+            console.log(error);
+        }
+    });
+}
 
 function writeFile() {
     fs.open('random.txt', 'wx', (err, fd) => {
