@@ -8,25 +8,12 @@ var twitter = new Twitter({
 });
 
 
-
-
 var Spotify = require('node-spotify-api');
 
 var spotify = new Spotify({
     id: 'fe19c0e2b0aa4d75a85ff2e40a17f122',
     secret: '487f069e143544f6b589ff02515d9865'
 });
-
-// spotify.search({
-//     type: 'track',
-//     query: 'All the Small Things'
-// }, function (err, data) {
-//     if (err) {
-//         return console.log('Error occurred: ' + err);
-//     }
-
-//     console.log(data);
-// });
 
 module.exports = {
     twitter,
