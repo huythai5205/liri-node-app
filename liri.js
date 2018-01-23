@@ -3,9 +3,6 @@ const inquirer = require('inquirer');
 const request = require('request');
 const fs = require('fs');
 
-
-
-
 inquirer.prompt({
     type: 'list',
     name: 'userPick',
@@ -39,19 +36,15 @@ inquirer.prompt({
 });
 
 function getMovie(data) {
-    (!data.movieName ? data.movieName = 'Mr. Nobody' : data.movieName);
+    (!data.movieName ? data.movieName = 'Mr.+Nobody' : data.movieName);
     request("http://www.omdbapi.com/?t=" + data.movieName + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
-        // If the request is successful (i.e. if the response status code is 200)
         if (!error && response.statusCode === 200) {
-            // Parse the body of the site and recover just the imdbRating
-            // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
-            // (oMovie.Source.hasOwnProperty('Rotten Tomatoes')?value:)
             let oMovie = JSON.parse(body);
             let string = `
             Movie title:            ${oMovie.Title}
             Year:                   ${oMovie.Year}
             IMDB Rating:            ${oMovie.imdbRating}
-            Rotten Tomatoes Rating: ${ oMovie.Rating}
+            Rotten Tomatoes Rating: ${ oMovie.Ratings[1].Value}
             Language:               ${oMovie.Language}
             Plot:                   ${oMovie.Plot}
             Actors:                 ${oMovie.Actors}
@@ -62,8 +55,8 @@ function getMovie(data) {
     });
 }
 
-
 function getSong(data) {
+    (!data.movieName ? data.songName = 'The+Sign%20artist:Ace+of+Base' : data.songName);
     keys.spotify.search({
         type: 'track',
         query: data.songName,
@@ -93,7 +86,8 @@ function getTweets() {
         if (!error) {
             let string = '';
             for (let tweet of tweets) {
-                string += `This tweet: ${tweet.text}. Was created at ${tweet.created_at}\n`;
+                string += `This tweet: ${tweet.text}. Was created at ${tweet.created_at}
+                `;
             }
             console.log(string);
             writeFile(string);
